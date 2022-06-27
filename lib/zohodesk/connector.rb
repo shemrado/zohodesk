@@ -55,5 +55,45 @@ module Zohodesk
 
       true
     end
+
+    Zohodesk::Collection.collections.each do |collection|
+      multi  = collection.to_s.underscore
+      single = multi.singularize
+      klass  = Zohodesk::Collection.const_get(collection)
+
+      define_method(:"load_#{multi}") do |batch_offset: 1, batch_size: 100, **kwargs|
+        response = connection.get(
+          klass::URI_PATH,
+          {
+            from:  batch_offset,
+            limit: batch_size,
+          }.merge(kwargs),
+        )
+
+        klass.new(response)
+      end
+
+      define_method(:"load_#{single}") do |id|
+        response = connection.get("#{klass::URI_PATH}/#{id}")
+
+        klass.record_class.new(response.body)
+      end
+    end
+
+    def generate_item_url(_object_name, source_item)
+      if source_item.is_a?(Zohodesk::Collection::Base)
+        source_item.map(&:web_url)
+      else
+        source_item.web_url
+      end
+    end
+
+    def parse_core_item_id(_object_name, source_item)
+      if source_item.is_a?(Zohodesk::Collection::Base)
+        source_item.map(&:id)
+      else
+        source_item.id
+      end
+    end
   end
 end

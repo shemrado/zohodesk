@@ -30,6 +30,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'faraday', '~> 0.9.1'
   spec.add_dependency 'faraday_middleware', '~> 0.9.1'
+  spec.add_dependency 'activesupport', '>= 4.0.6'
+  spec.add_dependency 'hashie', '>= 4.0.0'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
