@@ -3,6 +3,7 @@
 module Zohodesk
   # Item collections
   module Collection
+    # @return [Array[Symbol]] constant names of collection classes
     def self.collections
       constants
         .select { |c| (c != :Base) && const_get(c).is_a?(Class) }

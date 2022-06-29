@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Zohodesk
-  # Item rocords
+  # Item records
   module Record; end
 end
 
